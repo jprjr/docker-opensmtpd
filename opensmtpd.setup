@@ -1,0 +1,25 @@
+#!/usr/bin/env bash
+
+# Environment variables
+declare IMAP_HOST #optional
+declare IMAP_LMTP_PORT
+
+if [[ -f /private/vars.sh ]]; then
+    source /private/vars.sh
+fi
+
+IMAP_HOST=${IMAP_HOST:-}
+IMAP_NAME=${IMAP_NAME:-}
+if [[ -n ${IMAP_NAME} ]]; then
+  IMAP_HOST=imap;
+fi
+
+if [[ -z ${IMAP_LMTP_PORT} ]]; then
+  IMAP_LMTP_PORT=24
+fi
+
+cp /opt/opensmtpd.default/smtpd.conf /etc/smtpd.conf
+
+sed -i "s/##IMAP_HOST##/$IMAP_HOST/g" /etc/smtpd.conf
+sed -i "s/##IMAP_LMTP_PORT##/$IMAP_LMTP_PORT/g" /etc/smtpd.conf
+

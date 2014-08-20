@@ -1,0 +1,5 @@
+#!/usr/bin/env bash
+
+./setup
+
+smtpd -d -f /etc/smtpd.conf
